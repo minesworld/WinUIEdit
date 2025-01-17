@@ -433,6 +433,8 @@ namespace winrt::WinUIEditor::implementation
 			}
 			// Todo: make sure the loss of precision is not going to realistically cause a problem
 		}
+
+		e.Handled(true);
 	}
 
 	void EditorBaseControl::OnPointerReleased(DUX::Input::PointerRoutedEventArgs const &e)
