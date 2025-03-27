@@ -23,6 +23,8 @@
         <!-- Warning: using VerticalAlignment="Stretch" does not work correctly -->
         <editor:CodeEditorControl x:Name="Editor1" Grid.Row="1"  
                                   Loaded="CodeEditorControl_Loaded" 
+                                  HighlightingLanguage="python"
+                                  IsVerticalResizingEnabled="True" 
                                   WrapMode="Word" />
 
         <ScrollView x:Name="ScrollView" Grid.Row="1"
@@ -42,6 +44,7 @@
                 <!--  new: IsVerticalResizingEnabled 
                       VerticalAlignment="Stretch" does work here... because the Row is set to Auto instead of * ?
                 -->
+                
                 <editor:CodeEditorControl Grid.Row="1" x:Name="Editor2" 
                                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                           IsVerticalResizingEnabled="False" />

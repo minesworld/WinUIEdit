@@ -37,6 +37,7 @@ namespace WinUIEditor
 		double VerticalScrollBarViewportSize();
 
 		void SetContainer(winrt::DUX::FrameworkElement const& container);
+		winrt::DUX::FrameworkElement MainWrapper::GetContainer();
 		bool ResizeContainersVertical(double value);
 		bool GetUseVerticalScrollBar();
 		void SetUseVerticalScrollBar(bool value);

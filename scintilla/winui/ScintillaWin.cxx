@@ -2603,15 +2603,13 @@ namespace Scintilla::Internal {
 		// which can greatly reduce the amount of memory needed by the virtual surface image source.
 		// It will result in more draw calls though, but Direct2D will be able to accommodate that
 		// without significant impact on presentation frame rate.
+
 		for (ULONG i = 0; i < drawingBoundsCount; i++)
 		{
 			paintingAllText = RECTContains(drawingBounds[i], GetClientRectangle());
 			DrawBit(drawingBounds[i]);
 
-			if (paintState == PaintState::abandoned)
-			{
-				break;
-			}
+			if (paintState == PaintState::abandoned) break;
 		}
 
 		if (paintState == PaintState::abandoned)
@@ -2621,7 +2619,7 @@ namespace Scintilla::Internal {
 			paintState = PaintState::painting;
 			paintingAllText = true;
 			// Todo: This is in contradiction with the above paragraph about drawing size. But invalidation results in flickering
-			DrawBit(RECT{ 0, 0, _mainWrapper->Width(), _mainWrapper->Height() });
+			DrawBit(visibleArea);
 		}
 
 		paintState = PaintState::notPainting;
@@ -2658,7 +2656,7 @@ namespace Scintilla::Internal {
 			_mainWrapper->CreateGraphicsDevices();
 			InvalidateStyleRedraw(); // just Redraw() does not work
 		}
-		else
+		else if (beginDrawHR == S_OK)
 		{
 			const auto &d2dDeviceContext{ _mainWrapper->D2dDeviceContext() };
 
@@ -2790,6 +2788,7 @@ namespace Scintilla::Internal {
 		{
 			return 0;
 		}
+
 		UndoGroup ug(pdoc);
 		pdoc->DeleteChars(0, pdoc->Length());
 		SetEmptySelection(0);
@@ -3208,5 +3207,11 @@ namespace Scintilla::Internal {
 		}
 
 		sisNativeWithD2D->EndDraw();
+	}
+
+
+	void ScintillaWinUI::SetVisibleArea(LONG x, LONG y, LONG width, LONG height)
+	{
+		visibleArea = RECT{ x, y, width, height };
 	}
 }
