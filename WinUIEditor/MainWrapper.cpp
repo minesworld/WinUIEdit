@@ -174,6 +174,11 @@ namespace WinUIEditor
 		_container = container;
 	}
 
+	winrt::DUX::FrameworkElement MainWrapper::GetContainer()
+	{
+		return _container;
+	}
+
 	/* ResizeContainersVertical
 	   return true when resized
 	*/

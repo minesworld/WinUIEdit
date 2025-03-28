@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Controls;
+using System.IO;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -19,6 +20,17 @@ namespace CsDemoWinUI3
             Title = "Demo WinUI3 (C#)";
 
             SystemBackdrop = new MicaBackdrop();
+
+            /*
+            Editor1.Width = 200;
+
+            int testIndex = 2;
+            var folder = "C:\\Users\\Michael\\Develop\\_tmp\\WinUI3EditorBug\\";
+            var path = Path.Join(folder, $"{testIndex}.txt");
+
+            var text = File.ReadAllText(path);
+            Editor1.Editor.SetText(text);
+            */
         }
 
         private void CodeEditorControl_Loaded(object sender, RoutedEventArgs e)
