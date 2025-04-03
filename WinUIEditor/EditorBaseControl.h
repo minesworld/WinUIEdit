@@ -50,6 +50,8 @@ namespace winrt::WinUIEditor::implementation
 		bool GetVerticalResizing();
 		void SetVerticalResizing(bool value);
 
+		Windows::Foundation::Size ArrangeOverride(Windows::Foundation::Size const& finalSize);
+
 	private:
 #ifndef WINUI3
 		bool _hasFcu{ Windows::Foundation::Metadata::ApiInformation::IsApiContractPresent(L"Windows.Foundation.UniversalApiContract", 5) }; // Todo: Make static
@@ -116,7 +118,8 @@ namespace winrt::WinUIEditor::implementation
 		Windows::UI::Xaml::Application::Suspending_revoker _suspendingRevoker{};
 		void Application_Suspending(Windows::Foundation::IInspectable const &sender, Windows::ApplicationModel::SuspendingEventArgs const &args);
 #endif
-		void EditorBaseControl::UpdateVisibleArea();
+
+		void UpdateVisibleArea();
 	};
 }
 

@@ -692,6 +692,12 @@ namespace winrt::WinUIEditor::implementation
 		_wrapper->SetUseVerticalScrollBar(!value);
 	}
 
+	Windows::Foundation::Size EditorBaseControl::ArrangeOverride(Windows::Foundation::Size const& finalSize)
+	{
+		UpdateVisibleArea();
+		return finalSize;
+	}
+
 	void EditorBaseControl::UpdateVisibleArea()
 	{
 		auto container = _wrapper->GetContainer();
