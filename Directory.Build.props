@@ -4,5 +4,6 @@
 		<OutDir>$([MSBuild]::NormalizeDirectory('$(BuildOutDir)', '$(MSBuildProjectName)', 'bin'))</OutDir>
 		<IntDir>$([MSBuild]::NormalizeDirectory('$(BuildOutDir)', '$(MSBuildProjectName)', 'obj'))</IntDir>
 		<GeneratedFilesDir>$(IntDir)Generated Files\</GeneratedFilesDir>
+		<NuGetAudit>false</NuGetAudit>
 	</PropertyGroup>
 </Project>

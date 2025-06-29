@@ -358,6 +358,7 @@ namespace winrt::WinUIEditor::implementation
 		if (const auto imageTarget{ GetTemplateChild(L"ImageTarget").try_as<Border>() })
 		{
 			_imageTargetSizeChangedRevoker = imageTarget.SizeChanged(auto_revoke, { this, &EditorBaseControl::ImageTarget_SizeChanged });
+			// _imageTargetLayoutUpdatedRevoker = imageTarget.SizeChanged(auto_revoke, { this, &EditorBaseControl::ImageTarget_LayoutUpdated });
 			_imageTargetPointerMovedRevoker = imageTarget.PointerMoved(auto_revoke, { this, &EditorBaseControl::ImageTarget_PointerMoved });
 #ifndef WINUI3
 			_imageTargetPointerCaptureLostRevoker = imageTarget.PointerCaptureLost(auto_revoke, { this, &EditorBaseControl::ImageTarget_PointerCaptureLost });
@@ -545,16 +546,25 @@ namespace winrt::WinUIEditor::implementation
 	{
 		if (_vsisNative)
 		{
-			UpdateVisibleArea();
-
+			
 			auto width{ ConvertFromDipToPixelUnit(args.NewSize().Width, _dpiScale) };
 			auto height{ ConvertFromDipToPixelUnit(args.NewSize().Height, _dpiScale) };
 			_wrapper->Width(width);
 			_wrapper->Height(height);
 			_vsisNative->Resize(width, height);
+
+			UpdateVisibleArea();
+
 			_scintilla->SizeChanged();
 		}
 	}
+
+	/*
+	void EditorBaseControl::ImageTarget_LayoutUpdated(Windows::Foundation::IInspectable const& sender, DUX::RoutedEventArgs const& args)
+	{
+		UpdateVisibleArea();
+	}
+	*/
 
 	void EditorBaseControl::ImageTarget_PointerWheelChanged(IInspectable const &sender, PointerRoutedEventArgs const &e)
 	{
@@ -692,12 +702,6 @@ namespace winrt::WinUIEditor::implementation
 		_wrapper->SetUseVerticalScrollBar(!value);
 	}
 
-	Windows::Foundation::Size EditorBaseControl::ArrangeOverride(Windows::Foundation::Size const& finalSize)
-	{
-		UpdateVisibleArea();
-		return finalSize;
-	}
-
 	void EditorBaseControl::UpdateVisibleArea()
 	{
 		auto container = _wrapper->GetContainer();
@@ -722,8 +726,8 @@ namespace winrt::WinUIEditor::implementation
 		auto intersection = RectHelper::Intersect(elementBounds, xamlRootBounds);
 
 		_scintilla->SetVisibleArea(
-			ConvertFromDipToPixelUnit(intersection.X, _dpiScale),
-			ConvertFromDipToPixelUnit(intersection.Y, _dpiScale),
+			ConvertFromDipToPixelUnit(intersection.X - elementBounds.X, _dpiScale),
+			ConvertFromDipToPixelUnit(intersection.Y - elementBounds.Y, _dpiScale),
 			ConvertFromDipToPixelUnit(intersection.Width, _dpiScale),
 			ConvertFromDipToPixelUnit(intersection.Height, _dpiScale)
 		);
